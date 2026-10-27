@@ -27,7 +27,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="de" className={`${barlow.variable} ${condensed.variable} h-full antialiased`}>
       <body className="min-h-full bg-[#f7f7f5] text-[#121212]">
         {children}
-        <Toaster position="bottom-center" />
+        <Toaster position="top-center" />
       </body>
     </html>
   );

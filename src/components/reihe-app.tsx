@@ -258,11 +258,9 @@ export function ReiheApp() {
             </span>
             <div>
               <p className="text-xs text-[#3f3f3f]">
-                {!session ? "Zürich" : signedIn ? (session.demo ? "Beispieldaten" : "Bibliothek") : "Nicht angemeldet"}
+                {!session ? "Zürich" : signedIn ? session.displayName || "Bibliothek" : "Nicht angemeldet"}
               </p>
-              <h1 className="font-condensed text-[1.75rem] leading-none font-semibold">
-                {signedIn ? session?.displayName || "Reihe" : "Reihe"}
-              </h1>
+              <h1 className="font-condensed text-[1.75rem] leading-none font-semibold">Reihe</h1>
             </div>
           </div>
           <div className="flex flex-wrap items-end justify-between gap-3 sm:justify-end">

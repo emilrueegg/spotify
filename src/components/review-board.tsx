@@ -164,7 +164,7 @@ export function ReviewBoard({
         ) : null}
       </aside>
       <div className="min-h-0 min-w-0 flex-1 overflow-auto">
-        <table className="w-full min-w-[960px] border-collapse text-left">
+        <table className="w-full border-collapse text-left md:min-w-[960px]">
           <thead className="sticky top-0 z-10 bg-[#f7f7f5]">
             <tr className="border-b border-[#121212] text-xs text-[#3f3f3f]">
               <th className="w-10 px-3 py-2 font-medium">
@@ -180,10 +180,10 @@ export function ReviewBoard({
               </th>
               <th className="w-16 px-2 py-2 font-medium">Dauer</th>
               <th className="px-2 py-2 font-medium">Titel</th>
-              <th className="px-2 py-2 font-medium">Künstler</th>
-              <th className="px-2 py-2 font-medium">Liegt in</th>
-              <th className="px-2 py-2 font-medium">Gattung</th>
-              <th className="px-2 py-2 font-medium">Quelle</th>
+              <th className="hidden px-2 py-2 font-medium md:table-cell">Künstler</th>
+              <th className="hidden px-2 py-2 font-medium md:table-cell">Liegt in</th>
+              <th className="hidden px-2 py-2 font-medium md:table-cell">Gattung</th>
+              <th className="hidden px-2 py-2 font-medium md:table-cell">Quelle</th>
             </tr>
           </thead>
           <tbody>
@@ -254,8 +254,29 @@ export function ReviewBoard({
                     <td className="px-2 py-2">
                       <span className="block font-condensed text-[17px] leading-tight font-semibold">{track.name}</span>
                       {track.album ? <span className="mt-0.5 block text-xs text-[#3f3f3f]">{track.album}</span> : null}
+                      <span
+                        className="mt-1 block text-xs leading-5 text-[#3f3f3f] md:hidden"
+                        onClick={(event) => event.stopPropagation()}
+                      >
+                        {track.artists.length === 0
+                          ? "—"
+                          : track.artists.map((artist, index) => (
+                              <span key={artist.id}>
+                                {index > 0 ? ", " : null}
+                                <button type="button" className="underline-offset-2 hover:underline" onClick={() => onArtist(artist)}>
+                                  {artist.name}
+                                </button>
+                              </span>
+                            ))}
+                        {" · "}
+                        {place || "—"}
+                        {" · "}
+                        {BUCKET_LABEL[track.bucket]}
+                        {" · "}
+                        {primary ? SOURCE_LABEL[primary.source] : "—"}
+                      </span>
                     </td>
-                    <td className="px-2 py-2 text-sm" onClick={(event) => event.stopPropagation()}>
+                    <td className="hidden px-2 py-2 text-sm md:table-cell" onClick={(event) => event.stopPropagation()}>
                       {track.artists.length === 0 ? (
                         "—"
                       ) : (
@@ -273,13 +294,13 @@ export function ReviewBoard({
                         ))
                       )}
                     </td>
-                    <td className="max-w-56 px-2 py-2 text-sm" title={place}>
+                    <td className="hidden max-w-56 px-2 py-2 text-sm md:table-cell" title={place}>
                       <span className="line-clamp-2">{place || "—"}</span>
                     </td>
-                    <td className="px-2 py-2 text-sm" title={primary?.matchedPhrase ?? undefined}>
+                    <td className="hidden px-2 py-2 text-sm md:table-cell" title={primary?.matchedPhrase ?? undefined}>
                       {BUCKET_LABEL[track.bucket]}
                     </td>
-                    <td className="px-2 py-2 text-sm">{primary ? SOURCE_LABEL[primary.source] : "—"}</td>
+                    <td className="hidden px-2 py-2 text-sm md:table-cell">{primary ? SOURCE_LABEL[primary.source] : "—"}</td>
                   </tr>
                 );
               })
